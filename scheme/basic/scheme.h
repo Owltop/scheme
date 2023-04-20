@@ -1,6 +1,9 @@
 #pragma once
 
+#include "parser.h"
 #include <string>
+#include <sstream>
+#include <vector>
 
 class Interpreter {
 public:
