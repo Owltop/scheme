@@ -9,19 +9,47 @@ public:
 
 class Number : public Object {
 public:
-    int GetValue() const;
+    Number(int val) : value(val){};
+
+    int GetValue() const {
+        return value;
+    };
+
+    int value;
 };
 
 class Symbol : public Object {
 public:
-    const std::string& GetName() const;
+    Symbol(const std::string& input_s) : s(input_s){};
+
+    const std::string& GetName() const {
+        return s;
+    };
+
+    std::string s;
+};
+
+class Boolean : public Object {
+public:
+    Boolean(bool val) : value(val){};
+
+    bool value = false;
 };
 
 class Cell : public Object {
 public:
-    std::shared_ptr<Object> GetFirst() const;
-    std::shared_ptr<Object> GetSecond() const;
+    std::shared_ptr<Object> GetFirst() const {
+        return first;
+    };
+    std::shared_ptr<Object> GetSecond() const {
+        return second;
+    };
+
+    std::shared_ptr<Object> first = nullptr;
+    std::shared_ptr<Object> second = nullptr;
 };
+
+// class NullList : public Object {};
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -29,7 +57,14 @@ public:
 // This can be helpful: https://en.cppreference.com/w/cpp/memory/shared_ptr/pointer_cast
 
 template <class T>
-std::shared_ptr<T> As(const std::shared_ptr<Object>& obj);
+std::shared_ptr<T> As(const std::shared_ptr<Object>& obj) {  //
+    return std::dynamic_pointer_cast<T>(obj);
+};
 
 template <class T>
-bool Is(const std::shared_ptr<Object>& obj);
+bool Is(const std::shared_ptr<Object>& obj) {
+    if (As<T>(obj) != nullptr) {
+        return true;
+    }
+    return false;
+};
